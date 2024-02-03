@@ -22,7 +22,7 @@ jobs:
           java-version: '17'
 
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn -f Spring-Azure/pom.xml clean install
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -34,10 +34,10 @@ jobs:
     runs-on: windows-latest
     needs: build
     environment:
-      name: 'Production'
+      name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write
 
     steps:
       - name: Download artifact from build job
@@ -48,15 +48,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_9BEC703CD66B48ABA4AEDAF11AA4F6A1 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_ED921C9E82BD4C91A446F845846AAE2A }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D6D9A7C3113A49C9A048046ED85C7F3E }}
+          client-id: ${{ secrets.__clientidsecretname__ }}
+          tenant-id: ${{ secrets.__tenantidsecretname__ }}
+          subscription-id: ${{ secrets.__subscriptionidsecretname__ }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'azuredemo98'
-          slot-name: 'Production'
+          slot-name: 'production'
           package: '*.jar'
-          
