@@ -46,9 +46,8 @@ jobs:
           name: java-app
 
       - name: Login to Azure
-        run: az login --service-principal -u "${{ secrets.AZURE_CLIENT_ID }}" -p "${{ secrets.AZURE_CLIENT_SECRET }}" --tenant "${{ secrets.AZURE_TENANT_ID }}"
-        env:
-            AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        run: az login --subscription "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
