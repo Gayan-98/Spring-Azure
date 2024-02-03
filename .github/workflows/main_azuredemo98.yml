@@ -45,8 +45,8 @@ jobs:
         with:
           name: java-app
 
-      - name: Login to Azure
-        run: az login --subscription "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+      - name: Set active subscription
+        run: az account set --subscription "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
 
 
       - name: Deploy to Azure Web App
